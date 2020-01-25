@@ -1,0 +1,47 @@
+{
+  "name": "web-crawler",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "A simple textual site map generator",
+  "main": "app.js",
+  "scripts": {
+    "full": "npm run lint && npm run build && npm run coverage",
+    "lint": "yarn eslint . --ext .ts",
+    "build": "tsc",
+    "coverage": "nyc --check-coverage --branches 100 mocha"
+  },
+  "mocha": {
+    "require": "ts-node/register, source-map-support/register",
+    "full-trace": true,
+    "bail": true,
+    "spec": "test/**/*.spec.ts"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "html"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fildon/web-crawler.git"
+  },
+  "author": "Rupert Foggo McKay",
+  "dependencies": {
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
