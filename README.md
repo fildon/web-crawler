@@ -6,5 +6,5 @@ A simple textual sitemap generator
 ```
 npm install
 npm run build
-node run dist/app.js
+npm run start
 ```

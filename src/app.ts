@@ -1,3 +1,6 @@
 import { WebCrawler } from "./webCrawler";
 
-console.log(new WebCrawler().crawl());
+new WebCrawler()
+    .crawl()
+    .then(text => console.log(text))
+    .catch(err => console.log(err));
