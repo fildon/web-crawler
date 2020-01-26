@@ -2,6 +2,10 @@ import { Crawler } from "./crawler";
 
 const webCrawler = new Crawler('https://monzo.com');
 webCrawler
-    .fetchHTML()
-    .then(html => console.log(webCrawler.extractURLs(html)))
+    .buildPageMap()
+    .then(() => {
+        console.log(webCrawler.pageMap);
+        console.log(`Visited ${webCrawler.pageMap.size} pages`);
+        return;
+    })
     .catch(err => console.log(err));

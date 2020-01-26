@@ -1,16 +1,23 @@
 import * as chai from 'chai';
+import * as request from "request-promise";
+import * as sinon from 'sinon';
 import { Crawler } from "../src/crawler";
 
 const expect = chai.expect;
 
 describe("Crawler", () => {
-    it("retrieves a string", () => {
-        // TODO this test will fail if monzo.com is unreachable...
-        // ...consider stubbing out the web dependency
-        const webCrawler = new Crawler('https://monzo.com');
-        // Mocha will pass this test if and only if,
-        // the following returned promise resolves
-        return webCrawler.fetchHTML();
+    before(() => {
+        const requestStub = sinon.stub()
+        requestStub.withArgs('test.com/').returns(Promise.resolve(
+            'href="/a"\nhref="/b"'
+        ));
+        requestStub.withArgs('test.com/a').returns(Promise.resolve(
+            'href="/b"'
+        ));
+        requestStub.withArgs('test.com/b').returns(Promise.resolve(
+            'href="/a"'
+        ));
+        sinon.replace(request, 'get', requestStub);
     });
 
     describe("relative url pattern", () => {
@@ -41,6 +48,19 @@ describe("Crawler", () => {
             expect(actual.has('/bar')).to.be.true;
             expect(actual.has('/bar/buzz')).to.be.true;
             expect(actual.has('buzz')).to.be.false;
+        });
+    });
+
+    describe("build page map", () => {
+        it("steps through connected pages", async () => {
+            const webCrawler = new Crawler('test.com');
+            await webCrawler.buildPageMap();
+            const actual = webCrawler.pageMap;
+            expect(actual.size).to.equal(3);
+            expect(actual.has('/')).to.be.true;
+            expect(actual.has('/a')).to.be.true;
+            expect(actual.has('/b')).to.be.true;
+            expect(actual.has('/c')).to.be.false;
         });
     });
 });
