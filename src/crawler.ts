@@ -4,7 +4,8 @@ import { Page } from "./page";
 export class Crawler{
     public domain: string;
     public static subDomainPattern = '/\\w+';
-    public static relativeUrlPattern = `(/|(${Crawler.subDomainPattern})+)`;
+    public static relativeUrlPattern
+        = `(/|(${Crawler.subDomainPattern})+)`;
     public urlPattern: RegExp;
     public pageMap: Map<string, Set<string>>;
     public constructor(domain: string) {
@@ -19,7 +20,9 @@ export class Crawler{
     public async buildPageMap(): Promise<void> {
         let urlsToVisit = ['/'];
         while (urlsToVisit.length > 0) {
-            const pages = await Promise.all(urlsToVisit.map(url => this.fetchHTML(url)));
+            const pages = await Promise.all(
+                urlsToVisit.map(url => this.fetchHTML(url))
+            );
             pages.forEach(page => {
                 const childURLs = this.extractURLs(page.html);
                 this.pageMap.set(page.url, childURLs);
@@ -27,7 +30,9 @@ export class Crawler{
                     urlsToVisit.push(childURL);
                 });
             })
-            urlsToVisit = urlsToVisit.filter(url => !this.pageMap.has(url));
+            urlsToVisit = urlsToVisit.filter(
+                url => !this.pageMap.has(url)
+            );
         }
     }
 

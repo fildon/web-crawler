@@ -23,27 +23,32 @@ describe("Crawler", () => {
     describe("relative url pattern", () => {
         it("matches zero subdomains", () => {
             const shouldMatchString = '/';
-            const actual = new RegExp(Crawler.relativeUrlPattern).exec(shouldMatchString);
+            const actual = new RegExp(Crawler.relativeUrlPattern)
+                .exec(shouldMatchString);
             expect(actual).not.to.be.null;
         });
 
         it("matches single subdomains", () => {
             const shouldMatchString = '/foo';
-            const actual = new RegExp(Crawler.relativeUrlPattern).exec(shouldMatchString);
+            const actual = new RegExp(Crawler.relativeUrlPattern)
+                .exec(shouldMatchString);
             expect(actual).not.to.be.null;
         });
 
         it("matches multiple subdomains", () => {
             const shouldMatchString = '/foo/bar';
-            const actual = new RegExp(Crawler.relativeUrlPattern).exec(shouldMatchString);
+            const actual = new RegExp(Crawler.relativeUrlPattern)
+                .exec(shouldMatchString);
             expect(actual).not.to.be.null;
         })
     });
 
     describe("URL extraction", () => {
-        it("fetches valid relative and absolute URLs", () => {
+        it("fetches valid relative URLs", () => {
             const webCrawler = new Crawler('foo');
-            const actual = webCrawler.extractURLs('href="/"\nhref="/bar"\nhref="/bar/buzz"\nhref="buzz"');
+            const actual = webCrawler.extractURLs(
+                'href="/"\nhref="/bar"\nhref="/bar/buzz"\nhref="buzz"'
+            );
             expect(actual.has('/')).to.be.true;
             expect(actual.has('/bar')).to.be.true;
             expect(actual.has('/bar/buzz')).to.be.true;
