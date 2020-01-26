@@ -17,7 +17,7 @@ export class Crawler{
         this.pageMap = new Map();
     }
 
-    public async buildPageMap(): Promise<void> {
+    public async buildPageMap(): Promise<Map<string, Set<string>>> {
         let urlsToVisit = ['/'];
         while (urlsToVisit.length > 0) {
             const pages = await Promise.all(
@@ -34,6 +34,7 @@ export class Crawler{
                 url => !this.pageMap.has(url)
             );
         }
+        return this.pageMap;
     }
 
     public async fetchHTML(relativePath: string): Promise<Page> {

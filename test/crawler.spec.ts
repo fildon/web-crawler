@@ -59,8 +59,7 @@ describe("Crawler", () => {
     describe("build page map", () => {
         it("steps through connected pages", async () => {
             const webCrawler = new Crawler('test.com');
-            await webCrawler.buildPageMap();
-            const actual = webCrawler.pageMap;
+            const actual = await webCrawler.buildPageMap();
             expect(actual.size).to.equal(3);
             expect(actual.has('/')).to.be.true;
             expect(actual.has('/a')).to.be.true;
