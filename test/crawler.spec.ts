@@ -36,11 +36,10 @@ describe("Crawler", () => {
     describe("URL extraction", () => {
         it("fetches valid relative and absolute URLs", () => {
             const webCrawler = new Crawler('foo');
-            const actual = webCrawler.extractURLs('href="/"\nhref="/bar"\nhref="foo/"\nhref="foo/bar/buzz"\nhref="buzz"');
+            const actual = webCrawler.extractURLs('href="/"\nhref="/bar"\nhref="/bar/buzz"\nhref="buzz"');
             expect(actual.has('/')).to.be.true;
             expect(actual.has('/bar')).to.be.true;
-            expect(actual.has('foo/')).to.be.true;
-            expect(actual.has('foo/bar/buzz')).to.be.true;
+            expect(actual.has('/bar/buzz')).to.be.true;
             expect(actual.has('buzz')).to.be.false;
         });
     });

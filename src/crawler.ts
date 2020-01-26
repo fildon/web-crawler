@@ -4,20 +4,18 @@ export class Crawler{
     public domain: string;
     public static subDomainPattern = '/\\w+';
     public static relativeUrlPattern = `(/|(${Crawler.subDomainPattern})+)`;
-    public absoluteUrlPattern: string;
     public urlPattern: RegExp;
     public constructor(domain: string) {
         this.domain = domain;
-        this.absoluteUrlPattern = `${domain}(${Crawler.subDomainPattern})*`;
         this.urlPattern = new RegExp(
-            `href="((${this.absoluteUrlPattern}|${Crawler.relativeUrlPattern})/?)"`,
+            `href="(${Crawler.relativeUrlPattern}/?)"`,
             'g'
         );
     }
 
-    public async fetchHTML(): Promise<string> {
+    public async fetchHTML(relativePath = ''): Promise<string> {
         return new Promise(resolve => {
-            request(this.domain, (err, response, body) => {
+            request(this.domain + relativePath, (err, response, body) => {
                 resolve(body);
             });
         })
