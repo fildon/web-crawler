@@ -1,6 +1,8 @@
 import { Crawler } from "./crawler";
 
-const webCrawler = new Crawler('https://monzo.com');
+const url = 'https://monzo.com';
+console.log(`Building map for ${url}`);
+const webCrawler = new Crawler(url);
 webCrawler
     .buildPageMap()
     .then(pageMap => {

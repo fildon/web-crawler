@@ -2,18 +2,17 @@ import * as request from "request-promise";
 import { Page } from "./page";
 
 export class Crawler{
-    public domain: string;
     public static subDomainPattern = '/\\w+';
-    public static relativeUrlPattern
-        = `(/|(${Crawler.subDomainPattern})+)`;
-    public urlPattern: RegExp;
+    public static relativeUrlPattern =
+        `(/|(${Crawler.subDomainPattern})+)`;
+    public urlPattern = new RegExp(
+        `href="(${Crawler.relativeUrlPattern}/?)"`,
+        'g'
+    );
+    public domain: string;
     public pageMap: Map<string, Set<string>>;
     public constructor(domain: string) {
         this.domain = domain;
-        this.urlPattern = new RegExp(
-            `href="(${Crawler.relativeUrlPattern}/?)"`,
-            'g'
-        );
         this.pageMap = new Map();
     }
 
